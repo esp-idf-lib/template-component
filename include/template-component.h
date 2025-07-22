@@ -54,14 +54,22 @@ typedef enum {
 * @note Please note that this is an example component
 *
 * @code{c}
-* // include the header file.
 *
+* #include <esp_log.h>
+*
+* // include the header file.
 * #include <template-component.h>
 *
-* esp_err_t = err;
-* uint8_t foo = 1;
-* uint8_t bar = 2;
-* err = func1(foo, bar)
+* #define TAG "example1"
+*
+* void app_main(void)
+* {
+*     uint8_t foo = 1;
+*     uint8_t bar = 2;
+*     esp_err_t err = func1(foo, bar);
+*
+*     ESP_LOGI(TAG, "result: %d", err);
+* }
 * @endcode
 *
 * @warning This is warning.
