@@ -10,3 +10,5 @@ on:
 jobs:
   build-examples:
     uses: esp-idf-lib/shared-workflows/.github/workflows/build-examples.yml@v1.0.0
+  build-docs:
+    uses: esp-idf-lib/shared-workflows/.github/workflows/build-docs.yml@v1.1.0
