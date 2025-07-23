@@ -1,9 +1,11 @@
 ---
-name: Publish released documentation
+name: Build docs
 on:
-  release:
+  pull_request:
     types:
-      - published
+      - opened
+      - reopened
+      - synchronize
 
 permissions:
   # required by actions/deploy-pages used in build-docs.yml
@@ -13,5 +15,3 @@ permissions:
 jobs:
   build-docs:
     uses: esp-idf-lib/shared-workflows/.github/workflows/build-docs.yml@main
-    with:
-      publish: true
