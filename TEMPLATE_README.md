@@ -21,3 +21,36 @@ as [Source] under [Build and deployment].
    [Block force pushes], are checked.
 1. Check [Require a pull request before merging]. Leave its options as-is.
 1. Check [Require status checks to pass].
+
+
+## Obtain an access token of ESP Component Registry
+
+To automate uploading a component to ESP Component Registry with GitHub
+Actions workflow, you need:
+
+* to be an admin of the component
+* to have a privilege to set Actions secrets and variables in the GitHub
+  repository.
+
+Contact @trombik if you don't or are not sure.
+
+To use a workflow to upload the component when the component has been released,
+you need an access token of ESP Component Registry. The token is used in a
+workflow via GitHub secrets.
+
+
+1. Visit [ESP Component Registry](https://components.espressif.com/) and
+   login.
+1. Click your profile menu on top and click [Tokens]
+1. In [Create new access token] page, fill in [Description], e.g. "Uploading
+   component from GitHub Action".
+
+Next, create a GitHub secret in the repository.
+
+1. Visit the component repository on GitHub.
+1. Click [Settings]
+1. Click [Secrets and variables] in the side menu at left.
+1. Under [Repository secrets], click [New repository secret]
+1. In [Actions secrets / New secret] page, fill in [Name] with `ESP_TOKEN`
+1. Paste the access token value from the previous step into [Secret].
+1. Click [Add secret].
