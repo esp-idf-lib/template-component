@@ -44,6 +44,11 @@ workflow via GitHub secrets.
 1. Click your profile menu on top and click [Tokens]
 1. In [Create new access token] page, fill in [Description], e.g. "Uploading
    component from GitHub Action".
+1. Select [write:component] in [Scopes of the token].
+1. Click [Create]
+1. In [Access token successfully created] page, copy the generated access
+   token. Please keep it secret and do not publish it anywhere. This token is
+   used in the next step and shown just once.
 
 Next, create a GitHub secret in the repository.
 
@@ -54,3 +59,4 @@ Next, create a GitHub secret in the repository.
 1. In [Actions secrets / New secret] page, fill in [Name] with `ESP_TOKEN`
 1. Paste the access token value from the previous step into [Secret].
 1. Click [Add secret].
+1. Make sure the token name, `ESP_TOKEN`, is shown in [Repository secrets]
