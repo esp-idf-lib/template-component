@@ -1,0 +1,12 @@
+---
+name: Publish released documentation
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build-docs:
+    uses: esp-idf-lib/shared-workflows/.github/workflows/build-docs.yml@main
+    with:
+      publish: true
