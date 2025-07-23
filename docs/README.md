@@ -169,4 +169,7 @@ Welcome to Foo's documentation!
 
 ## Deploying the documentation
 
-TBW
+By default, the documentation is published on GitHub Pages when the component
+has been released. See [publish-gh-pages.yml](../.github/workflows/publish-doc.yml])
+and `build-docs.yml` at
+[esp-idf-lib/shared-workflows](https://github.com/esp-idf-lib/shared-workflows/tree/main/.github/workflows).

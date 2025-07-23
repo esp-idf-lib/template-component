@@ -1,7 +1,6 @@
 ---
 name: Build examples
 on:
-  push:
   pull_request:
     types:
       - opened
@@ -9,6 +8,4 @@ on:
       - synchronize
 jobs:
   build-examples:
-    uses: esp-idf-lib/shared-workflows/.github/workflows/build-examples.yml@v1.0.0
-  build-docs:
-    uses: esp-idf-lib/shared-workflows/.github/workflows/build-docs.yml@v1.1.0
+    uses: esp-idf-lib/shared-workflows/.github/workflows/build-examples.yml@main
