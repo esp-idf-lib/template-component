@@ -35,6 +35,12 @@ Follow the official documentation, [Creating a repository from a template](https
 Visit [Settings], [Pages] in the side menu at left, and choose [GitHub Actions]
 as [Source] under [Build and deployment].
 
+With `gh` CLI command:
+
+```sh
+gh api repos/:owner/:repo/pages -X POST -F build_type=workflow
+```
+
 ### Protect the default branch
 
 1. Visit [Settings].
