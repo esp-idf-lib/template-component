@@ -1,0 +1,9 @@
+---
+name: astyle
+
+on:
+  pull_request:
+    push:
+jobs:
+  validate-astyle:
+    uses: esp-idf-lib/shared-workflows/.github/workflows/validate-astyle.yml@main
