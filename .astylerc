@@ -1,0 +1,14 @@
+--align-reference=name
+--attach-classes
+--attach-namespaces
+--convert-tabs
+--exclude=build
+--exclude=common
+--exclude=managed_components
+--indent=spaces=4
+--keep-one-line-statements
+--max-continuation-indent=120
+--pad-header
+--pad-oper
+--style=otbs
+--unpad-paren
