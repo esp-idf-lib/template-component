@@ -12,6 +12,7 @@ intended to be cloned to create new component quickly.
     * [Protect the default branch](#protect-the-default-branch)
 * [Obtain an access token of ESP Component Registry](#obtain-an-access-token-of-esp-component-registry)
 * [Initial commit](#initial-commit)
+    * [Code style](#code-style)
 
 <!-- vim-markdown-toc -->
 
@@ -38,8 +39,50 @@ as [Source] under [Build and deployment].
 With `gh` CLI command:
 
 ```sh
-gh api repos/:owner/:repo/pages -X POST -F build_type=workflow
+gh api /repos/esp-idf-lib/${REPO}/pages -X POST -F build_type=workflow
 ```
+
+```sh
+gh api --method POST /repos/esp-idf-lib/${REPO}/environments/github-pages/deployment-branch-policies -f 'name=*.*.*' -f "type=tag"
+```
+
+```sh
+gh api /repos/esp-idf-lib/${REPO}/environments/github-pages/deployment-branch-policies
+```
+
+```json
+{
+  "total_count": 2,
+  "branch_policies": [
+    {
+      "id": 33131771,
+      "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMzEzMTc3MQ==",
+      "name": "main",
+      "type": "branch"
+    },
+    {
+      "id": 33131770,
+      "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMzEzMTc3MA==",
+      "name": "*.*.*",
+      "type": "tag"
+    }
+  ]
+}
+```
+
+```sh
+gh api /repos/esp-idf-lib/${REPO}/environments/github-pages/deployment-branch-policies --jq '.branch_policies[] | select(.type=="branch")'
+```
+
+```json
+{
+  "id": 33131771,
+  "name": "main",
+  "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMzEzMTc3MQ==",
+  "type": "branch"
+}
+```
+[REST API endpoints for deployment branch policies](https://docs.github.com/en/rest/deployments/branch-policies?apiVersion=2022-11-28)
 
 ### Protect the default branch
 
@@ -56,6 +99,10 @@ gh api repos/:owner/:repo/pages -X POST -F build_type=workflow
 1. Check [Require a pull request before merging]. Leave its options as-is.
 
 ## Obtain an access token of ESP Component Registry
+
+> [!NOTE]
+> This section is only for organization admin. The token described below is
+> already set at organization level.
 
 To automate uploading a component to ESP Component Registry with GitHub
 Actions workflow, you need:
@@ -99,3 +146,17 @@ After all of the above, you can start committing and pushing your code to the
 repository.
 
 For documenting the component, see `docs` directory.
+
+### Code style
+
+Please see
+[Espressif IoT Development Framework Style Guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/style-guide.html).
+
+To format code, use `astyle`.
+
+```console
+astyle --project --recursive '*.c,*.h'
+```
+
+> [!NOTE]
+> The rules are defined in `.astylerc`.
