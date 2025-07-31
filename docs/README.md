@@ -2,6 +2,12 @@
 
 This document covers our documentation process for component.
 
+> [!CAUTION]
+> Currently, the doc build system is broken. However, GitHub Action workflow
+> is working. You cannot locally generate the documentation on local machine,
+> but the workflow builds and publishes the doc when you commit.
+
+
 In short, to generate HTML files, run:
 ```shell
 make
