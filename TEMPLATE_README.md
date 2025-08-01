@@ -8,6 +8,8 @@ intended to be cloned to create new component quickly.
 * [Features](#features)
 * [Using the template](#using-the-template)
     * [Creating a repository from the template](#creating-a-repository-from-the-template)
+    * [Verifying the template works](#verifying-the-template-works)
+    * [Starting development](#starting-development)
     * [Enable GitHub Pages](#enable-github-pages)
     * [Protect the default branch](#protect-the-default-branch)
 * [Obtain an access token of ESP Component Registry](#obtain-an-access-token-of-esp-component-registry)
@@ -31,7 +33,45 @@ configured.
 
 Follow the official documentation, [Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template).
 
+### Verifying the template works
+
+In the new repository directory, run:
+
+```console
+cd exmaples/example1
+idf.py all
+```
+
+The build should succeed.
+
+Visit GitHub repository. Click [Actions]. There should be no failures.
+
+### Starting development
+
+Find and replace ALL occurrences of `template-component` in the repository
+with the component name.
+
+Next, rename template source files.
+
+```console
+mv template-component.c foo.c
+mv include/template-component.h include/foo.h
+```
+
+Code style is enforced. See [Espressif IoT Development Framework Style Guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/style-guide.html).
+
+Edit `README.md` and `docs/index.rst`.
+
+Things should be documented:
+
+* What the chip or the component does
+* The URL of the data-sheet
+* How to use the component in short
+
 ### Enable GitHub Pages
+
+> [!NOTE]
+> Please ask @trombik for help when you are stacked in this section.
 
 Visit [Settings], [Pages] in the side menu at left, and choose [GitHub Actions]
 as [Source] under [Build and deployment].
