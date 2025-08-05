@@ -8,10 +8,10 @@ intended to be cloned to create new component quickly.
 * [Features](#features)
 * [Using the template](#using-the-template)
     * [Creating a repository from the template](#creating-a-repository-from-the-template)
+    * [Clone the repository](#clone-the-repository)
     * [Verifying the template works](#verifying-the-template-works)
     * [Starting development](#starting-development)
     * [Enable GitHub Pages](#enable-github-pages)
-    * [Protect the default branch](#protect-the-default-branch)
 * [Obtain an access token of ESP Component Registry](#obtain-an-access-token-of-esp-component-registry)
 * [Initial commit](#initial-commit)
     * [Code style](#code-style)
@@ -26,16 +26,43 @@ intended to be cloned to create new component quickly.
 
 ## Using the template
 
-Before committing and pushing to the GitHub repository, the repository must be
-configured.
+In this section, you will create a new component, `foo`. Replace `foo` with
+the real name of the component.
 
 ### Creating a repository from the template
 
-Follow the official documentation, [Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template).
+Follow the official documentation,
+[Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template).
+
+1. Choose [Owner] under [General]. If you are a member of `esp-idf-lib`, choose
+  `esp-idf-lib`. If not, choose your GitHub account.
+1. Type `foo` in [Repository name].
+1. Describe the component in [Description].
+1. Choose [Public] in [Choose visibility].
+1. Click [Create repository]
+
+Visit the GitHub repository. Click [Actions]. There should be no failures.
+
+### Clone the repository
+
+Clone the new repository as usual.
+
+```console
+git clone git@github.com:esp-idf-lib/foo.git
+cd foo
+```
+
+> [!IMPORTANT]
+> Check out the `git` `submodule` after cloning the repository on local machine.
+
+```console
+git submodule update --init --recursive
+```
 
 ### Verifying the template works
 
-In the new repository directory, run:
+In the new repository directory, build an example to verify the template is
+working.
 
 ```console
 cd exmaples/example1
@@ -43,8 +70,6 @@ idf.py all
 ```
 
 The build should succeed.
-
-Visit GitHub repository. Click [Actions]. There should be no failures.
 
 ### Starting development
 
@@ -58,51 +83,68 @@ mv template-component.c foo.c
 mv include/template-component.h include/foo.h
 ```
 
-Code style is enforced. See [Espressif IoT Development Framework Style Guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/style-guide.html).
+Code style is enforced. See
+[Espressif IoT Development Framework Style Guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/style-guide.html).
 
 Edit `README.md` and `docs/index.rst`.
 
 Things should be documented:
 
 * What the chip or the component does
-* The URL of the data-sheet
+* The URL of the data sheet
 * How to use the component in short
+* Example code
 
 ### Enable GitHub Pages
 
 > [!NOTE]
 > Please ask @trombik for help when you are stacked in this section.
 
-Visit [Settings], [Pages] in the side menu at left, and choose [GitHub Actions]
-as [Source] under [Build and deployment].
+Visit the GitHub repository, [Settings], [Pages] in the side menu at left, and
+choose [GitHub Actions] as [Source] under [Build and deployment]. This enables
+deployment HTML files from GitHub Actions.
 
-With `gh` CLI command:
+With `gh` CLI, the following commands do the same above.
 
 ```sh
 gh api /repos/esp-idf-lib/${REPO}/pages -X POST -F build_type=workflow
 ```
 
+Next, visit [Environments] in the side menu at left, click `github-pages`.
+
+1. In [Configure github-pages], click [Add deployment branch or tag rule] under
+   [Deployment branches and tags].
+1. In [Add deployment branch or tag rule] dialog, choose [Tag] for [Ref type].
+   Type `*.*.*` in [Name pattern].
+1. Click [Add rule].
+
+With `gh` CLI, the following command does the same above.
+
 ```sh
 gh api --method POST /repos/esp-idf-lib/${REPO}/environments/github-pages/deployment-branch-policies -f 'name=*.*.*' -f "type=tag"
 ```
 
+To see the `branch_policies`, run:
+
 ```sh
-gh api /repos/esp-idf-lib/${REPO}/environments/github-pages/deployment-branch-policies
+gh api /repos/esp-idf-lib/template-component/environments/github-pages/deployment-branch-policies
 ```
+
+The output should be like below:
 
 ```json
 {
   "total_count": 2,
   "branch_policies": [
     {
-      "id": 33131771,
-      "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMzEzMTc3MQ==",
+      "id": 32966213,
+      "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMjk2NjIxMw==",
       "name": "main",
       "type": "branch"
     },
     {
-      "id": 33131770,
-      "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMzEzMTc3MA==",
+      "id": 33644461,
+      "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMzY0NDQ2MQ==",
       "name": "*.*.*",
       "type": "tag"
     }
@@ -110,39 +152,15 @@ gh api /repos/esp-idf-lib/${REPO}/environments/github-pages/deployment-branch-po
 }
 ```
 
-```sh
-gh api /repos/esp-idf-lib/${REPO}/environments/github-pages/deployment-branch-policies --jq '.branch_policies[] | select(.type=="branch")'
-```
-
-```json
-{
-  "id": 33131771,
-  "name": "main",
-  "node_id": "MDE2OkdhdGVCcmFuY2hQb2xpY3kzMzEzMTc3MQ==",
-  "type": "branch"
-}
-```
-[REST API endpoints for deployment branch policies](https://docs.github.com/en/rest/deployments/branch-policies?apiVersion=2022-11-28)
-
-### Protect the default branch
-
-1. Visit [Settings].
-1. Click [Rules] in the side menu at left and click [Rulesets].
-1. Click [New ruleset] button, and click [New branch ruleset].
-1. [New branch ruleset] page is shown.
-1. In [Ruleset Name], type "default"
-1. Under [Enforcement status], select [Active]
-1. Under [Target branches], click [Add target] button, and select [Include
-   default branch].
-1. Under [Branch rules], make sure the default rules, [Restrict deletions] and
-   [Block force pushes], are checked.
-1. Check [Require a pull request before merging]. Leave its options as-is.
+For more about the API environment, see
+[REST API endpoints for deployment branch policies](https://docs.github.com/en/rest/deployments/branch-policies?apiVersion=2022-11-28).
 
 ## Obtain an access token of ESP Component Registry
 
 > [!NOTE]
 > This section is only for organization admin. The token described below is
-> already set at organization level.
+> already set at organization level. If you are not an `esp-idf-lib` admin,
+> skip this section.
 
 To automate uploading a component to ESP Component Registry with GitHub
 Actions workflow, you need:
