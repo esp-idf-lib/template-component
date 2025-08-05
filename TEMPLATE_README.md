@@ -72,7 +72,32 @@ In the new repository directory, build an example to verify the template is
 working.
 
 ```console
-cd exmaples/example1
+cd examples/example1
+```
+
+Edit `main/idf_component.yml` by replacing `template-component` under
+`dependencies` with the component name.
+
+```console
+vim main/idf_component.yml
+```
+
+```diff
+--- a/examples/example1/main/idf_component.yml
++++ b/examples/example1/main/idf_component.yml
+@@ -3,6 +3,6 @@
+ version: 1.0.0
+ description: Example 1
+ dependencies:
+-  esp-idf-lib/template-component:
++  esp-idf-lib/foo:
+     version: "~1.0.0"
+     override_path: ../../../
+```
+
+Then, build the example.
+
+```
 idf.py all
 ```
 
