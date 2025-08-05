@@ -48,8 +48,6 @@ Follow the official documentation,
 1. Choose [Public] in [Choose visibility].
 1. Click [Create repository]
 
-Visit the GitHub repository. Click [Actions]. There should be no failures.
-
 ### Clone the repository
 
 Clone the new repository as usual.
