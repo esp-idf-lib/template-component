@@ -120,6 +120,18 @@ mv template-component.c foo.c
 mv include/template-component.h include/foo.h
 ```
 
+Commit and push all files.
+
+```console
+git add .
+git push
+```
+
+Visit the repository page. Click [Actions] > [Build examples] in the side menu
+at left. Click [Run workflow] utton. This runs [Build examples] workflow on
+`main` branch. The workflow should succeeds without errors (it takes 10
+minutes or so to finish).
+
 Code style is enforced. See
 [Espressif IoT Development Framework Style Guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/style-guide.html).
 
