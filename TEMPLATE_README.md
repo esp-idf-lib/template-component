@@ -106,6 +106,13 @@ The build should succeed.
 Find and replace ALL occurrences of `template-component` in the repository
 with the component name.
 
+If you have [ack] installed, here is the command to list all the files to
+modify:
+
+```console
+ack --files-with-matches --ignore-dir build template-component .
+```
+
 Next, rename template source files.
 
 ```console
