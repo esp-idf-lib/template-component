@@ -132,6 +132,9 @@ at left. Click [Run workflow] utton. This runs [Build examples] workflow on
 `main` branch. The workflow should succeeds without errors (it takes 10
 minutes or so to finish).
 
+Now the repository is ready. Implement the driver in the C header file and C
+files.
+
 Code style is enforced. See
 [Espressif IoT Development Framework Style Guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/contribute/style-guide.html).
 
