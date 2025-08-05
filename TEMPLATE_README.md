@@ -3,6 +3,11 @@
 This is a template repository for `esp-idf-lib` component. The repository is
 intended to be cloned to create new component quickly.
 
+> [!IMPORTANT]
+> This instruction is intended for `esp-idf-lib` members. You may use this
+> template component for your own under your GitHub account. However, the CI
+> will NOT work.
+
 <!-- vim-markdown-toc GFM -->
 
 * [Features](#features)
@@ -15,6 +20,8 @@ intended to be cloned to create new component quickly.
 * [Obtain an access token of ESP Component Registry](#obtain-an-access-token-of-esp-component-registry)
 * [Initial commit](#initial-commit)
     * [Code style](#code-style)
+* [CI](#ci)
+* [Linking the component repository to `core` repository](#linking-the-component-repository-to-core-repository)
 
 <!-- vim-markdown-toc -->
 
@@ -94,6 +101,39 @@ Things should be documented:
 * The URL of the data sheet
 * How to use the component in short
 * Example code
+
+Edit `.eil.yml`.
+
+1. Replace `name` with the component name.
+1. Describe the component in `description`. One sentence.
+1. `version` should be `0.x.x` (replace `x` with whatever minor and patch
+   version in integer). When linking the component to
+   `esp-idf-lib/core`, The version will become `1.0.0`.
+1. Update `code_owners` with your name.
+1. Choose one or more `groups`. See available groups at:
+   [groups.yml](https://github.com/esp-idf-lib/core/blob/main/groups.yml)
+1. Update `depends` with components your component depends on. If none, add
+   `freertos`.
+1. `targets` should be all ESP32 targets and optionally `esp8266`.
+1. Make sure `license` matches your chosen license. See acceptable licenses at:
+   [How to contribute to esp-idf-lib](https://github.com/esp-idf-lib/core/blob/main/CONTRIBUTING.md).
+    No GPL licenses.
+1. Update `copyrights` with your name.
+
+> [!IMPORTANT]
+> If your name is not in [persons.yml](https://github.com/esp-idf-lib/core/blob/main/persons.yml),
+> contact `esp-idf-lib` admins and request to add your name in the file.
+
+Edit `idf_component.yml`.
+
+* `targets` MUST be ESP32 targets only. No `esp8266`. `esp8266` is not
+  supported by the ESP Component Registry.
+* Make sure `license` matches your chosen license
+* Update `dependencies`.
+
+See
+[idf_component.yml Manifest File](https://docs.espressif.com/projects/idf-component-manager/en/latest/reference/manifest_file.html)
+for more details.
 
 ### Enable GitHub Pages
 
@@ -218,3 +258,27 @@ astyle --project --recursive '*.c,*.h'
 
 > [!NOTE]
 > The rules are defined in `.astylerc`.
+
+## CI
+
+Ci is enabled by default. All the GitHub Actions workflows are managed by a
+repository,
+[esp-idf-lib/shared-workflows](https://github.com/esp-idf-lib/shared-workflows/).
+
+Here is some workflows (not exhaustive):
+
+* `build.yml` builds all the examples.
+* `build-docs.yml` builds and publish documentation on GitHub Pages.
+* [validate-esp-idf-lib-component](https://github.com/esp-idf-lib/validate-esp-idf-lib-component/)
+  validates a component. There are many tests under
+  [spec](https://github.com/esp-idf-lib/validate-esp-idf-lib-component/tree/main/spec)
+  directory.
+* `publish-esp-component-registry.yml` publishes the component to ESP
+  Component Registry when released with tag. The tag must be the version.
+
+## Linking the component repository to `core` repository
+
+The component is now ready. However, the component is not linked to
+`esp-idf-lib/core`, where all the components are managed.
+
+Contact `esp-idf-lib` admins to link the component.
