@@ -21,8 +21,7 @@
  * SOFTWARE.
  */
 
-#ifndef __TEMPLATE_COMPONENT_H__
-#define __TEMPLATE_COMPONENT_H__
+#pragma once
 
 #include <stdint.h> // system headers first
 #include <esp_err.h> // then, esp-idf headers
@@ -87,5 +86,3 @@ esp_err_t func1(uint8_t arg1, uint8_t arg2);
 #ifdef __cplusplus
 }
 #endif
-
-#endif // __TEMPLATE_COMPONENT_H__
