@@ -8,6 +8,9 @@ intended to be cloned to create new component quickly.
 > template component for your own under your GitHub account. However, the CI
 > will NOT work.
 
+The up-to-date version of this document can be found at
+[template-component](https://github.com/esp-idf-lib/template-component/tree/main).
+
 <!-- vim-markdown-toc GFM -->
 
 * [Features](#features)
