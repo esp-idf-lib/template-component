@@ -23,6 +23,7 @@ The up-to-date version of this document can be found at
 * [Obtain an access token of ESP Component Registry](#obtain-an-access-token-of-esp-component-registry)
 * [Initial commit](#initial-commit)
     * [Code style](#code-style)
+    * [Rules](#rules)
 * [CI](#ci)
 * [Linking the component repository to `core` repository](#linking-the-component-repository-to-core-repository)
 
@@ -307,9 +308,194 @@ astyle --project --recursive '*.c,*.h'
 > [!NOTE]
 > The rules are defined in `.astylerc`.
 
+### Rules
+
+> [!NOTE]
+> The rules are not not exhaustive.
+
+Use `esp_err_t` for return value to signal errors.
+
+```c
+/* GOOD */
+
+#include <esp_err.h>
+#include <esp_log.h>
+
+#define TAG "foo"
+
+esp_err_t func(uint8_t value)
+{
+    if (value == 0) {
+        ESP_LOGE(TAG, "value must not be zero");
+        return ESP_ERR_INVALID_ARG;
+    }
+    reurn ESP_OK;
+}
+```
+
+```c
+/* BAD */
+
+#include <esp_log.h>
+
+#define TAG "foo"
+
+int func(uint8_t value)
+{
+    if (value == 0) {
+        ESP_LOGE(TAG, "value must not be zero");
+        return -1;
+    }
+    reurn 1;
+}
+```
+
+Always check NULL pointers before use.
+
+```c
+/* GOOD */
+
+#include <esp_err.h>
+#include <esp_check.h>
+
+#define TAG "foo"
+
+esp_err_t func(uint8_t *values, size_t size)
+{
+    ESP_RETURN_ON_FALSE(values, ESP_ERR_INVALID_ARG, TAG, "values is NULL");
+    /* do something with values */
+
+    return ESP_OK;
+}
+```
+
+```c
+# BAD
+
+#include <esp_err.h>
+
+#define TAG "foo"
+
+esp_err_t func(uint8_t *values, size_t size)
+{
+    /* do something with values */
+
+    return ESP_OK;
+}
+```
+
+Use label when something must always be done.
+
+```c
+/* GOOD */
+
+#include <esp_err.h>
+#include <esp_check.h>
+#include <esp_log.h>
+
+#define TAG "foo"
+
+esp_err_t func()
+{
+    esp_err_t ret = ESP_FAIL;
+
+    /* do something, such as obtaining a lock */
+    ret = do_something();
+    ESP_GOTO_ON_ERROR(ret, fail, TAG, "something failed");
+
+    ret = ESP_OK;
+fail:
+    /* do some cleanup, such as releasing a lock */
+    cleanup();
+    return ret;
+}
+```
+
+```c
+/* BAD */
+
+#include <esp_err.h>
+#include <esp_log.h>
+
+#define TAG "foo"
+
+esp_err_t func()
+{
+    esp_err_t ret = ESP_FAIL;
+
+    /* do something, such as obtaining a lock */
+    ret = do_something();
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG, "something failed");
+        cleanup();
+        return ret;
+    }
+
+    ret = ESP_OK;
+    /* do some cleanup, such as releasing a lock */
+    cleanup();
+    return ret;
+}
+```
+
+Use macros or variables instead of magic values.
+
+```c
+/* GOOD */
+
+#include <esp_err.h>
+
+#define COMMAND_START 0xff
+#define COMMAND_STOP  0x00
+
+esp_err_t func(uint8_t value)
+{
+    ret = ESP_FAIL;
+
+    /* start processing with value */
+    ret = do_something(COMMAND_START, value);
+    return ret;
+}
+```
+
+```c
+/* BAD */
+
+#include <esp_err.h>
+
+esp_err_t func(uint8_t value)
+{
+    ret = ESP_FAIL;
+
+    /* start processing with value */
+    ret = do_something(0xff, value);
+    return ret;
+}
+```
+
+Use `const` when the function does not modify arguments.
+
+```c
+/* GOOD */
+
+uint32_t add(const uint8_t a, const uint8_t b)
+{
+    return a + b;
+}
+```
+
+```c
+/* BAD */
+
+uint32_t add(uint8_t a, uint8_t b)
+{
+    return a + b;
+}
+```
+
 ## CI
 
-Ci is enabled by default. All the GitHub Actions workflows are managed by a
+CI is enabled by default. All the GitHub Actions workflows are managed by a
 repository,
 [esp-idf-lib/shared-workflows](https://github.com/esp-idf-lib/shared-workflows/).
 
